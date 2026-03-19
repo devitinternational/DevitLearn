@@ -1,33 +1,318 @@
 @import "tailwindcss";
 
+/* ============================================
+   DEVIT DESIGN SYSTEM — NEO-BRUTALIST
+   ============================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand Colors */
+  --yellow: #FFC107;
+  --yellow-light: #FFD54F;
+  --yellow-dark: #F9A825;
+  --black: #0A0A0A;
+  --white: #FFFFFF;
+  --off-white: #F5F5F0;
+  --gray-100: #F0F0EC;
+  --gray-200: #E0E0DB;
+  --gray-300: #C8C8C2;
+  --gray-400: #9A9A94;
+  --gray-500: #6A6A64;
+  --gray-600: #4A4A44;
+  --gray-700: #2A2A24;
+
+  /* Neo-Brutalist Shadows */
+  --shadow-sm: 2px 2px 0px var(--black);
+  --shadow-md: 4px 4px 0px var(--black);
+  --shadow-lg: 6px 6px 0px var(--black);
+  --shadow-xl: 8px 8px 0px var(--black);
+
+  /* Border */
+  --border-width: 2px;
+  --border: var(--border-width) solid var(--black);
+
+  /* Typography */
+  --font-heading: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
+  --font-body: var(--font-inter), 'Inter', sans-serif;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-yellow: var(--yellow);
+  --color-yellow-light: var(--yellow-light);
+  --color-yellow-dark: var(--yellow-dark);
+  --color-devit-black: var(--black);
+  --color-off-white: var(--off-white);
+  --color-gray-100: var(--gray-100);
+  --color-gray-200: var(--gray-200);
+  --color-gray-300: var(--gray-300);
+  --color-gray-400: var(--gray-400);
+  --color-gray-500: var(--gray-500);
+  --color-gray-600: var(--gray-600);
+  --color-gray-700: var(--gray-700);
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-heading);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-body);
+  background-color: var(--white);
+  color: var(--black);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+/* ============================================
+   NEO-BRUTALIST UTILITY CLASSES
+   ============================================ */
+
+/* Hard Shadows */
+.shadow-brutal-sm  { box-shadow: var(--shadow-sm); }
+.shadow-brutal     { box-shadow: var(--shadow-md); }
+.shadow-brutal-lg  { box-shadow: var(--shadow-lg); }
+.shadow-brutal-xl  { box-shadow: var(--shadow-xl); }
+
+/* Hover lift effect */
+.shadow-brutal-hover {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.shadow-brutal-hover:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.shadow-brutal-hover-sm {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.shadow-brutal-hover-sm:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Border utilities */
+.border-brutal { border: var(--border); }
+.border-brutal-2 { border: 2px solid var(--black); }
+.border-brutal-3 { border: 3px solid var(--black); }
+
+/* Yellow highlight underline */
+.highlight-yellow {
+  background: linear-gradient(to bottom, transparent 60%, var(--yellow) 60%);
+}
+
+/* Striped pattern background */
+.stripe-bg {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(0,0,0,0.04) 10px,
+    rgba(0,0,0,0.04) 20px
+  );
+}
+
+/* Dot grid pattern */
+.dot-grid-bg {
+  background-image: radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Yellow gradient section */
+.section-yellow {
+  background-color: var(--yellow);
+}
+
+/* Dark section */
+.section-dark {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--gray-100); }
+::-webkit-scrollbar-thumb {
+  background: var(--black);
+  border-radius: 0;
+  border: 1px solid var(--gray-200);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-yellow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(255, 193, 7, 0); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes slide-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-pulse-yellow { animation: pulse-yellow 2s ease-in-out infinite; }
+.animate-marquee { animation: marquee 30s linear infinite; }
+.animate-slide-in { animation: slide-in-up 0.5s ease forwards; }
+.animate-blink { animation: blink 1s step-end infinite; }
+
+/* ============================================
+   COMPONENT BASE STYLES
+   ============================================ */
+
+/* Tag/Badge */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border: 2px solid var(--black);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Input / Textarea */
+.input-brutal {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--black);
+  background: var(--white);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  outline: none;
+  transition: box-shadow 0.15s ease;
+}
+
+.input-brutal:focus {
+  box-shadow: 4px 4px 0px var(--black);
+}
+
+.input-brutal::placeholder {
+  color: var(--gray-400);
+}
+
+/* Select */
+.select-brutal {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--black);
+  background: var(--white);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Checkbox */
+.checkbox-brutal {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--black);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  position: relative;
+  background: white;
+}
+
+.checkbox-brutal:checked {
+  background: var(--yellow);
+}
+
+.checkbox-brutal:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--black);
+}
+
+/* ============================================
+   LAYOUT HELPERS
+   ============================================ */
+
+.container-tight {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 640px) {
+  .container-tight {
+    padding: 0 16px;
+  }
+}
+
+/* Section spacing */
+.section-pad {
+  padding: 80px 0;
+}
+
+@media (max-width: 768px) {
+  .section-pad {
+    padding: 56px 0;
+  }
+}
+
+/* ============================================
+   TICKER TAPE
+   ============================================ */
+
+.ticker-wrap {
+  overflow: hidden;
+  white-space: nowrap;
+  border-top: 2px solid var(--black);
+  border-bottom: 2px solid var(--black);
+  background: var(--yellow);
+}
+
+.ticker-content {
+  display: inline-flex;
+  animation: marquee 20s linear infinite;
 }
