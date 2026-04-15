@@ -2,12 +2,16 @@
   "name": "devit-learn",
   "version": "0.1.0",
   "private": true,
+  "pnpm": {
+    "overrides": {
+      "@auth/core": "0.41.1"
+    }
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "preinstall": "npx only-allow npm"
+    "lint": "eslint"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",

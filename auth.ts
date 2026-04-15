@@ -7,6 +7,7 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import type { Role } from "@prisma/client";
 
 const credentialsSchema = z.object({
   email: z.string().email(),
@@ -61,9 +62,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ token, user, account }) {
       // `user` is only present on first sign-in
-      if (user) {
+      if (user?.id) {
         token.id = user.id;
-        token.role = (user as { role?: "INTERN" | "ADMIN" }).role ?? "INTERN";
+        token.role = (user as { role?: Role }).role ?? "LEARNER";
       }
       if (account) {
         token.provider = account.provider;
@@ -81,17 +82,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
 
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id as string;
-        session.user.role = token.role as "INTERN" | "ADMIN";
-        session.user.provider = token.provider as string;
+      if (session.user && typeof token.id === "string") {
+        session.user.id = token.id;
+        session.user.role = (token.role as Role | undefined) ?? "LEARNER";
+        session.user.provider =
+          typeof token.provider === "string" ? token.provider : undefined;
       }
       return session;
     },
   },
 
   events: {
-    // Auto-verify email for OAuth sign-ins
     async linkAccount({ user }) {
       await prisma.user.update({
         where: { id: user.id },
