@@ -31,8 +31,8 @@
   --border: var(--border-width) solid var(--black);
 
   /* Typography */
-  --font-heading: "Avenir Next Condensed", "Trebuchet MS", "Arial Narrow", sans-serif;
-  --font-body: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-heading: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
+  --font-body: var(--font-inter), 'Inter', sans-serif;
 }
 
 @theme inline {

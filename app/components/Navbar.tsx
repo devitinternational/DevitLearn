@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import DevItLogo from "./DevItLogo";
-import { signOut, useSession } from "next-auth/react";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -20,8 +19,6 @@ interface NavbarProps {
 export default function Navbar({ variant = "light" }: NavbarProps) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { data: session, status } = useSession();
-  const isAuthenticated = status === "authenticated" && !!session?.user;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -38,15 +35,6 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
 
   const textColor = variant === "dark" ? "text-white" : "text-[#0A0A0A]";
   const borderColor = variant === "dark" ? "border-white/20" : "border-[#0A0A0A]";
-  const secondaryButtonClass = `text-sm font-bold uppercase tracking-widest px-4 py-2 border-2 border-[#0A0A0A] transition-all ${
-    variant === "dark"
-      ? "border-white text-white hover:bg-white hover:text-[#0A0A0A]"
-      : "hover:bg-[#0A0A0A] hover:text-white"
-  }`;
-
-  async function handleLogout() {
-    await signOut({ callbackUrl: "/" });
-  }
 
   return (
     <>
@@ -75,32 +63,18 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
-            {isAuthenticated ? (
-              <>
-                <Link href="/dashboard" className={secondaryButtonClass}>
-                  Dashboard
-                </Link>
-                <button
-                  type="button"
-                  onClick={handleLogout}
-                  className="text-sm font-bold uppercase tracking-widest px-5 py-2 bg-[#FFC107] border-2 border-[#0A0A0A] shadow-[3px_3px_0px_#0A0A0A] hover:shadow-[5px_5px_0px_#0A0A0A] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all text-[#0A0A0A]"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <Link href="/login" className={secondaryButtonClass}>
-                  Login
-                </Link>
-                <Link
-                  href="/internships"
-                  className="text-sm font-bold uppercase tracking-widest px-5 py-2 bg-[#FFC107] border-2 border-[#0A0A0A] shadow-[3px_3px_0px_#0A0A0A] hover:shadow-[5px_5px_0px_#0A0A0A] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all text-[#0A0A0A]"
-                >
-                  Get Started →
-                </Link>
-              </>
-            )}
+            <Link
+              href="/login"
+              className={`text-sm font-bold uppercase tracking-widest px-4 py-2 border-2 border-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white transition-all ${variant === "dark" ? "border-white text-white hover:bg-white hover:text-[#0A0A0A]" : ""}`}
+            >
+              Login
+            </Link>
+            <Link
+              href="/internships"
+              className="text-sm font-bold uppercase tracking-widest px-5 py-2 bg-[#FFC107] border-2 border-[#0A0A0A] shadow-[3px_3px_0px_#0A0A0A] hover:shadow-[5px_5px_0px_#0A0A0A] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all text-[#0A0A0A]"
+            >
+              Get Started →
+            </Link>
           </div>
 
           {/* Mobile burger */}
@@ -127,44 +101,20 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
               </Link>
             ))}
             <div className="flex flex-col gap-3 pt-2">
-              {isAuthenticated ? (
-                <>
-                  <Link
-                    href="/dashboard"
-                    onClick={() => setOpen(false)}
-                    className="text-sm font-bold uppercase tracking-widest px-4 py-3 border-2 border-[#0A0A0A] text-center hover:bg-[#0A0A0A] hover:text-white transition-all"
-                  >
-                    Dashboard
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={async () => {
-                      setOpen(false);
-                      await handleLogout();
-                    }}
-                    className="text-sm font-bold uppercase tracking-widest px-4 py-3 bg-[#FFC107] border-2 border-[#0A0A0A] shadow-[3px_3px_0px_#0A0A0A] text-center text-[#0A0A0A]"
-                  >
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/login"
-                    onClick={() => setOpen(false)}
-                    className="text-sm font-bold uppercase tracking-widest px-4 py-3 border-2 border-[#0A0A0A] text-center hover:bg-[#0A0A0A] hover:text-white transition-all"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    href="/internships"
-                    onClick={() => setOpen(false)}
-                    className="text-sm font-bold uppercase tracking-widest px-4 py-3 bg-[#FFC107] border-2 border-[#0A0A0A] shadow-[3px_3px_0px_#0A0A0A] text-center text-[#0A0A0A]"
-                  >
-                    Get Started →
-                  </Link>
-                </>
-              )}
+              <Link
+                href="/login"
+                onClick={() => setOpen(false)}
+                className="text-sm font-bold uppercase tracking-widest px-4 py-3 border-2 border-[#0A0A0A] text-center hover:bg-[#0A0A0A] hover:text-white transition-all"
+              >
+                Login
+              </Link>
+              <Link
+                href="/internships"
+                onClick={() => setOpen(false)}
+                className="text-sm font-bold uppercase tracking-widest px-4 py-3 bg-[#FFC107] border-2 border-[#0A0A0A] shadow-[3px_3px_0px_#0A0A0A] text-center text-[#0A0A0A]"
+              >
+                Get Started →
+              </Link>
             </div>
           </div>
         )}
