@@ -1,7 +1,18 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { auth } from "@/auth";
-import Providers from "./providers";
+import { Inter, Space_Grotesk } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "DevIt Internship Platform — Build Real. Grow Fast.",
@@ -15,17 +26,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
-
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body className="bg-white text-[#0A0A0A] antialiased">
-        <Providers session={session}>{children}</Providers>
+        {children}
       </body>
     </html>
   );

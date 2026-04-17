@@ -3,7 +3,7 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useState } from "react";
-import { Search, Filter, ExternalLink } from "lucide-react";
+import { Search, Filter, ArrowRight, ExternalLink } from "lucide-react";
 
 const categories = ["All", "Python", "Java", "C++", "Front-End", "Back-End", "Database", "Security", "General"];
 
