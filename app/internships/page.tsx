@@ -13,9 +13,23 @@ export default function InternshipsPage() {
   useEffect(() => {
     async function fetchTracks() {
       try {
-        const res = await fetch("/api/tracks"); // 🔥 your API endpoint
-        const data = await res.json();
-        setTracks(data);
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+        const res = await fetch(`${apiUrl}/domains/public`);
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data)) {
+          const mappedTracks = json.data.map((domain: any) => ({
+             title: domain.title,
+             desc: domain.description || "Comprehensive internship track.",
+             icon: domain.iconUrl || "💻",
+             level: domain.isFree ? "Beginner Friendly" : "Professional",
+             popular: domain.isFeatured,
+             color: "bg-white",
+             tasks: Array.from({ length: Math.max(domain._count?.tasks || 5, 3) }, (_, i) => `Module ${i + 1} Assignment`),
+             duration1: domain.isFree ? "Free" : (domain.priceINR ? `₹${domain.priceINR}` : "Paid"),
+             duration3: domain.isFree ? "Free" : (domain.priceINR ? `₹${Math.round(domain.priceINR * 2.25)}` : "Paid"),
+          }));
+          setTracks(mappedTracks);
+        }
       } catch (err) {
         console.error("Failed to fetch tracks", err);
       } finally {
