@@ -1,6 +1,6 @@
 // middleware.ts
 import NextAuth from "next-auth";
-import authConfig from "./auth.config";// ← edge-safe, no Prisma
+import authConfig from "./src/auth.config";// ← edge-safe, no Prisma
 
 const { auth } = NextAuth(authConfig);
 
