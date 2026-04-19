@@ -7,12 +7,15 @@ import { backendFetch } from "@/lib/backend";
  */
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { enrollmentId: string } }
+  context: { params: Promise<{ enrollmentId: string }> }
 ) {
   try {
+    const { enrollmentId } = await context.params;
+
     const res = await backendFetch(
-      `/api/payments/invoice/${params.enrollmentId}`
+      `/api/payments/invoice/${enrollmentId}`
     );
+
     const data = await res.json();
 
     if (!data.success || !data.data?.url) {
@@ -26,12 +29,14 @@ export async function GET(
     return NextResponse.redirect(data.data.url);
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";
+
     if (message.includes("No session token")) {
       return NextResponse.json(
         { success: false, message: "Please log in to continue." },
         { status: 401 }
       );
     }
+
     return NextResponse.json(
       { success: false, message: "Failed to fetch invoice." },
       { status: 500 }
