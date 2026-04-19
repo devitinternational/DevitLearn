@@ -63,6 +63,7 @@ interface Enrollment {
   progress: number;
   passedTasks: number;
   totalTasks: number;
+  completedLessonIds: string[]; // backend must return this
   domain: {
     id: string;
     title: string;
@@ -88,8 +89,7 @@ function formatDuration(seconds: number) {
 
 function statusBadge(status: Submission["status"]) {
   const map = {
-    PENDING:
-      "bg-yellow-50 text-yellow-700 border-yellow-300",
+    PENDING: "bg-yellow-50 text-yellow-700 border-yellow-300",
     PASSED: "bg-green-50 text-green-700 border-green-300",
     FAILED: "bg-red-50 text-red-700 border-red-300",
     NEEDS_REVISION: "bg-orange-50 text-orange-700 border-orange-300",
@@ -119,11 +119,18 @@ export default function CurriculumPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Which task is expanded in the right panel
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
-  // Submission state
+  // lesson completion
+  const [completedLessonIds, setCompletedLessonIds] = useState<Set<string>>(
+    new Set(),
+  );
+  const [completingLessonId, setCompletingLessonId] = useState<string | null>(
+    null,
+  );
+
+  // submission state
   const [repoUrl, setRepoUrl] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitMsg, setSubmitMsg] = useState<{
@@ -134,13 +141,14 @@ export default function CurriculumPage() {
   // ── Fetch enrollment + curriculum ──
   const fetchData = useCallback(async () => {
     try {
-      const res = await fetch(
-        `/api/curriculum/${enrollmentId}`
-      );
+      const res = await fetch(`/api/curriculum/${enrollmentId}`);
       const json = await res.json();
       if (json.success && json.data) {
         setEnrollment(json.data);
-        // Default to first task
+        // Seed completed lessons from backend response
+        if (Array.isArray(json.data.completedLessonIds)) {
+          setCompletedLessonIds(new Set(json.data.completedLessonIds));
+        }
         if (json.data.domain.tasks?.length > 0 && !activeTaskId) {
           setActiveTaskId(json.data.domain.tasks[0].id);
         }
@@ -155,19 +163,38 @@ export default function CurriculumPage() {
     } finally {
       setLoading(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enrollmentId]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
+  // ── Mark lesson complete ──
+  const handleLessonClick = async (lessonId: string) => {
+    if (completedLessonIds.has(lessonId)) return; // already done, no-op
+    setCompletingLessonId(lessonId);
+    try {
+      const res = await fetch(
+        `/api/lessons/${enrollmentId}/${lessonId}/complete`,
+        { method: "POST" },
+      );
+      const json = await res.json();
+      if (json.success) {
+        setCompletedLessonIds((prev) => new Set([...prev, lessonId]));
+      }
+    } catch {
+      // silent — tick just won't appear; user can retry
+    } finally {
+      setCompletingLessonId(null);
+    }
+  };
+
   // ── Submit project ──
   const handleSubmitProject = async (taskId: string) => {
     if (!repoUrl.trim()) return;
     setSubmitting(true);
     setSubmitMsg(null);
-
     try {
       const res = await fetch("/api/submissions/project", {
         method: "POST",
@@ -176,11 +203,17 @@ export default function CurriculumPage() {
       });
       const json = await res.json();
       if (json.success) {
-        setSubmitMsg({ type: "success", text: "Assignment submitted! We'll review it shortly." });
+        setSubmitMsg({
+          type: "success",
+          text: "Assignment submitted! We'll review it shortly.",
+        });
         setRepoUrl("");
-        fetchData(); // refresh submission status
+        fetchData();
       } else {
-        setSubmitMsg({ type: "error", text: json.message ?? "Submission failed." });
+        setSubmitMsg({
+          type: "error",
+          text: json.message ?? "Submission failed.",
+        });
       }
     } catch {
       setSubmitMsg({ type: "error", text: "Network error. Please try again." });
@@ -230,12 +263,10 @@ export default function CurriculumPage() {
 
   const { domain, submissions } = enrollment;
   const submissionMap = Object.fromEntries(
-    submissions.map((s) => [s.taskId, s])
+    submissions.map((s) => [s.taskId, s]),
   );
-
   const activeTask = domain.tasks.find((t) => t.id === activeTaskId) ?? null;
   const activeSubmission = activeTask ? submissionMap[activeTask.id] : null;
-
   const passedCount = submissions.filter((s) => s.status === "PASSED").length;
 
   return (
@@ -247,7 +278,7 @@ export default function CurriculumPage() {
       />
 
       <div className="flex flex-1 overflow-hidden">
-        {/* ── Left: section/task nav ───────────────────────────────────── */}
+        {/* ── Left nav ─────────────────────────────────────────────────── */}
         <nav className="w-60 bg-white border-r-2 border-[#0A0A0A] flex flex-col shrink-0 sticky top-0 h-screen overflow-y-auto">
           <div className="p-4 border-b-2 border-[#0A0A0A]">
             <p className="text-[10px] font-black uppercase tracking-[0.15em] text-gray-400">
@@ -266,9 +297,7 @@ export default function CurriculumPage() {
             <div className="border-b-2 border-[#0A0A0A]">
               <button
                 onClick={() =>
-                  setActiveSection(
-                    activeSection ? null : domain.sections[0].id
-                  )
+                  setActiveSection(activeSection ? null : domain.sections[0].id)
                 }
                 className="w-full p-3 text-left flex items-center justify-between"
               >
@@ -282,7 +311,7 @@ export default function CurriculumPage() {
                   <button
                     onClick={() =>
                       setActiveSection(
-                        activeSection === section.id ? null : section.id
+                        activeSection === section.id ? null : section.id,
                       )
                     }
                     className="w-full text-left px-3 py-2 text-xs font-black uppercase tracking-wide flex items-center justify-between hover:bg-[#F5F5F0] transition-colors"
@@ -297,21 +326,47 @@ export default function CurriculumPage() {
                   </button>
                   {activeSection === section.id && (
                     <ul className="pb-1">
-                      {section.lessons.map((lesson) => (
-                        <li key={lesson.id}>
-                          <div className="flex items-center gap-2 px-4 py-2 text-xs text-gray-600 hover:bg-[#FFF9E6] cursor-default">
-                            <span className="text-gray-400">
-                              {lessonIcon(lesson.contentType)}
-                            </span>
-                            <span className="flex-1 truncate">{lesson.title}</span>
-                            {lesson.videoDurationSeconds && (
-                              <span className="text-[10px] text-gray-400 font-mono shrink-0">
-                                {formatDuration(lesson.videoDurationSeconds)}
+                      {section.lessons.map((lesson) => {
+                        const done = completedLessonIds.has(lesson.id);
+                        const completing = completingLessonId === lesson.id;
+                        return (
+                          <li key={lesson.id}>
+                            <button
+                              onClick={() => handleLessonClick(lesson.id)}
+                              className={`w-full flex items-center gap-2 px-4 py-2 text-xs text-left transition-colors ${
+                                done
+                                  ? "bg-green-50 text-green-700"
+                                  : "text-gray-600 hover:bg-[#FFF9E6]"
+                              }`}
+                            >
+                              <span className="shrink-0">
+                                {completing ? (
+                                  <Loader2
+                                    size={12}
+                                    className="animate-spin text-gray-400"
+                                  />
+                                ) : done ? (
+                                  <CheckCircle
+                                    size={12}
+                                    className="text-green-500"
+                                    style={{ strokeWidth: 3 }}
+                                  />
+                                ) : (
+                                  lessonIcon(lesson.contentType)
+                                )}
                               </span>
-                            )}
-                          </div>
-                        </li>
-                      ))}
+                              <span className="flex-1 truncate">
+                                {lesson.title}
+                              </span>
+                              {lesson.videoDurationSeconds && (
+                                <span className="text-[10px] text-gray-400 font-mono shrink-0">
+                                  {formatDuration(lesson.videoDurationSeconds)}
+                                </span>
+                              )}
+                            </button>
+                          </li>
+                        );
+                      })}
                     </ul>
                   )}
                 </div>
@@ -364,13 +419,12 @@ export default function CurriculumPage() {
         <main className="flex-1 overflow-auto p-8 space-y-6">
           {activeTask ? (
             <>
-              {/* Header */}
               <div className="flex items-start justify-between">
                 <div>
                   <div className="inline-flex items-center gap-2 bg-[#FFC107] border-2 border-[#0A0A0A] px-3 py-1 text-xs font-black uppercase tracking-widest mb-2">
                     {activeTask.taskType === "QUIZ" ? "Quiz" : "Project Task"} ·{" "}
                     {String(
-                      domain.tasks.findIndex((t) => t.id === activeTask.id) + 1
+                      domain.tasks.findIndex((t) => t.id === activeTask.id) + 1,
                     ).padStart(2, "0")}{" "}
                     of {String(domain.tasks.length).padStart(2, "0")}
                   </div>
@@ -393,7 +447,6 @@ export default function CurriculumPage() {
                 </div>
               </div>
 
-              {/* Description */}
               {activeTask.description && (
                 <div className="bg-white border-2 border-[#0A0A0A] shadow-[4px_4px_0px_#0A0A0A] p-6">
                   <h2 className="text-sm font-black uppercase tracking-widest text-[#0A0A0A] mb-3">
@@ -405,7 +458,6 @@ export default function CurriculumPage() {
                 </div>
               )}
 
-              {/* QUIZ task — link to quiz page */}
               {activeTask.taskType === "QUIZ" && (
                 <div className="bg-white border-2 border-[#0A0A0A] shadow-[4px_4px_0px_#0A0A0A] p-6">
                   <h2 className="text-sm font-black uppercase tracking-widest text-[#0A0A0A] mb-3">
@@ -416,7 +468,6 @@ export default function CurriculumPage() {
                     {activeTask.questions.length !== 1 ? "s" : ""}. You need{" "}
                     {activeTask.passingScore ?? 70}% to pass.
                   </p>
-
                   {activeSubmission?.status === "PASSED" ? (
                     <div className="flex items-center gap-3 p-4 bg-green-50 border-2 border-green-300">
                       <CheckCircle size={20} className="text-green-600" />
@@ -433,7 +484,7 @@ export default function CurriculumPage() {
                     <button
                       onClick={() =>
                         router.push(
-                          `/dashboard/quiz/${activeTask.id}?enrollmentId=${enrollmentId}`
+                          `/dashboard/quiz/${activeTask.id}?enrollmentId=${enrollmentId}`,
                         )
                       }
                       className="flex items-center gap-2 px-6 py-3 bg-[#FFC107] border-2 border-[#0A0A0A] text-[#0A0A0A] font-black uppercase tracking-widest text-sm shadow-[4px_4px_0px_#0A0A0A] hover:shadow-[6px_6px_0px_#0A0A0A] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all"
@@ -444,7 +495,6 @@ export default function CurriculumPage() {
                       <ChevronRight size={15} />
                     </button>
                   )}
-
                   {activeSubmission?.status === "FAILED" && (
                     <p className="mt-3 text-sm text-red-600 font-medium">
                       Last attempt: {activeSubmission.quizScore}% — need{" "}
@@ -454,13 +504,11 @@ export default function CurriculumPage() {
                 </div>
               )}
 
-              {/* PROJECT task — submission form */}
               {activeTask.taskType === "PROJECT" && (
                 <div className="bg-white border-2 border-[#0A0A0A] shadow-[4px_4px_0px_#0A0A0A] p-6">
                   <h2 className="text-sm font-black uppercase tracking-widest text-[#0A0A0A] mb-4">
                     🚀 Submit Assignment
                   </h2>
-
                   {activeSubmission?.reviewNotes && (
                     <div className="mb-4 p-4 bg-orange-50 border-2 border-orange-300">
                       <p className="text-xs font-black uppercase text-orange-700 mb-1">
@@ -471,7 +519,6 @@ export default function CurriculumPage() {
                       </p>
                     </div>
                   )}
-
                   {activeSubmission?.repoUrl && (
                     <div className="mb-4 flex items-center gap-2 text-sm">
                       <span className="text-gray-500 font-medium">
@@ -485,13 +532,12 @@ export default function CurriculumPage() {
                       >
                         {activeSubmission.repoUrl.replace(
                           "https://github.com/",
-                          ""
+                          "",
                         )}
                         <ExternalLink size={12} />
                       </a>
                     </div>
                   )}
-
                   {submitMsg && (
                     <div
                       className={`mb-4 p-4 border-2 flex items-start gap-2 ${
@@ -508,7 +554,6 @@ export default function CurriculumPage() {
                       <p className="text-sm font-medium">{submitMsg.text}</p>
                     </div>
                   )}
-
                   <div className="flex gap-3">
                     <div className="relative flex-1">
                       <Github
@@ -543,7 +588,6 @@ export default function CurriculumPage() {
               )}
             </>
           ) : (
-            /* No task selected yet */
             <div className="flex flex-col items-center justify-center h-64 text-center">
               <BookOpen size={40} className="text-gray-300 mb-4" />
               <p className="font-black uppercase text-gray-400">
@@ -553,7 +597,7 @@ export default function CurriculumPage() {
           )}
         </main>
 
-        {/* ── Right: lessons preview ─────────────────────────────────── */}
+        {/* ── Right: lessons aside ──────────────────────────────────────── */}
         <aside className="w-56 bg-white border-l-2 border-[#0A0A0A] shrink-0 sticky top-0 h-screen overflow-y-auto">
           <div className="p-4 border-b-2 border-[#0A0A0A]">
             <div className="flex items-center gap-2">
@@ -565,25 +609,46 @@ export default function CurriculumPage() {
           </div>
           <div className="p-3 space-y-1">
             {domain.sections.flatMap((s) =>
-              s.lessons.map((lesson) => (
-                <div
-                  key={lesson.id}
-                  className="flex items-start gap-2 p-3 border-2 border-[#0A0A0A] text-xs font-bold group"
-                >
-                  <span className="text-gray-400 mt-0.5">
-                    {lessonIcon(lesson.contentType)}
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <p className="leading-snug truncate">{lesson.title}</p>
-                    {lesson.videoDurationSeconds && (
-                      <p className="text-[10px] text-gray-400 font-mono mt-0.5">
-                        {formatDuration(lesson.videoDurationSeconds)}
-                      </p>
+              s.lessons.map((lesson) => {
+                const done = completedLessonIds.has(lesson.id);
+                const completing = completingLessonId === lesson.id;
+                return (
+                  <button
+                    key={lesson.id}
+                    onClick={() => handleLessonClick(lesson.id)}
+                    className={`w-full flex items-start gap-2 p-3 border-2 border-[#0A0A0A] text-xs font-bold text-left transition-colors ${
+                      done
+                        ? "bg-green-50 border-green-300"
+                        : "hover:bg-[#FFF9E6]"
+                    }`}
+                  >
+                    <span className="text-gray-400 mt-0.5 shrink-0">
+                      {completing ? (
+                        <Loader2 size={12} className="animate-spin" />
+                      ) : done ? (
+                        <CheckCircle
+                          size={12}
+                          className="text-green-500"
+                          style={{ strokeWidth: 3 }}
+                        />
+                      ) : (
+                        lessonIcon(lesson.contentType)
+                      )}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p className="leading-snug truncate">{lesson.title}</p>
+                      {lesson.videoDurationSeconds && (
+                        <p className="text-[10px] text-gray-400 font-mono mt-0.5">
+                          {formatDuration(lesson.videoDurationSeconds)}
+                        </p>
+                      )}
+                    </div>
+                    {!done && (
+                      <Lock size={10} className="text-gray-300 shrink-0 mt-1" />
                     )}
-                  </div>
-                  <Lock size={10} className="text-gray-300 shrink-0 mt-1" />
-                </div>
-              ))
+                  </button>
+                );
+              }),
             )}
             {domain.sections.flatMap((s) => s.lessons).length === 0 && (
               <p className="text-xs text-gray-400 font-medium p-2">
