@@ -7,7 +7,7 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import type { Role } from "@prisma/client";
+import type { Role } from "@devitinternational/db";
 
 const credentialsSchema = z.object({
   email: z.string().email(),
@@ -15,7 +15,7 @@ const credentialsSchema = z.object({
 });
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma as any),
 
   // JWT is required — Prisma adapter + Edge middleware can't share DB sessions
   session: { strategy: "jwt" },

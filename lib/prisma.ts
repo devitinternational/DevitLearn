@@ -1,5 +1,5 @@
 // lib/prisma.ts
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@devitinternational/db";
 import { PrismaPg } from "@prisma/adapter-pg";
 
 const globalForPrisma = globalThis as {
