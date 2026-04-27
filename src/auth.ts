@@ -7,20 +7,14 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { SignJWT, jwtVerify } from "jose";
 import { prisma } from "@/lib/prisma";
+import type { Role } from "@devitinternational/db";
 import { getAuthSecret } from "@/lib/auth-secret";
-// Role values — keep in sync with backend schema
-type Role = "ADMIN" | "CREATOR" | "LEARNER";
 
 const credentialsSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
 });
 
-// const getSecret = () => {
-//   const s = process.env.AUTH_SECRET;
-//   if (!s) throw new Error("AUTH_SECRET is not set");
-//   return new TextEncoder().encode(s);
-// };
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma as any),

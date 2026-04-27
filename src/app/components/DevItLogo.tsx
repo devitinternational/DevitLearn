@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 
 interface DevItLogoProps {
   size?: "sm" | "md" | "lg";
@@ -32,7 +33,7 @@ export default function DevItLogo({
 
   return (
     <Link href="/" className="flex items-center gap-2 no-underline group">
-      {/* D Mark */}
+      {/* D Mark Logo Image */}
       <div
         className="flex items-center justify-center flex-shrink-0 border-2"
         style={{
@@ -42,20 +43,13 @@ export default function DevItLogo({
           borderColor,
         }}
       >
-        <svg
-          width={mark * 0.62}
-          height={mark * 0.62}
-          viewBox="0 0 32 32"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          {/* Custom D shape with the square cutout — matching the logo */}
-          <path
-            d="M4 4h8c8 0 16 3.6 16 12s-8 12-16 12H4V4z"
-            fill={markColor}
-          />
-          <rect x="3" y="11" width="7" height="7" rx="1.5" fill={bgColor} />
-        </svg>
+        <Image
+          src="/logo.png"
+          alt="DevIt Logo"
+          width={mark}
+          height={mark}
+          className="object-cover w-full h-full"
+        />
       </div>
 
       {showWordmark && (
