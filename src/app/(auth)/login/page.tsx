@@ -43,21 +43,21 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0]">
+    <div className="min-h-screen bg-[var(--off-white)]">
       <Navbar />
       <div className="min-h-[calc(100vh-72px)] flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
           {/* Card */}
-          <div className="border-2 border-[#0A0A0A] bg-white shadow-[6px_6px_0px_#0A0A0A] p-8">
+          <div className="border-2 border-[var(--black)] bg-[var(--white)] shadow-[6px_6px_0px_var(--black)] p-8">
             {/* Header */}
-            <div className="border-b-2 border-[#0A0A0A] pb-6 mb-6">
-              <div className="inline-block bg-[#FFC107] border-2 border-[#0A0A0A] px-3 py-1 text-xs font-black uppercase tracking-widest mb-4">
+            <div className="border-b-2 border-[var(--black)] pb-6 mb-6">
+              <div className="inline-block theme-fixed-yellow bg-[#FFC107] border-2 border-[var(--black)] px-3 py-1 text-xs font-black uppercase tracking-widest mb-4">
                 Welcome Back
               </div>
-              <h1 className="text-3xl font-black uppercase text-[#0A0A0A]">
+              <h1 className="text-3xl font-black uppercase text-[var(--black)]">
                 Log In
               </h1>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-[var(--gray-500)] mt-1">
                 Access your DevIt dashboard
               </p>
             </div>
@@ -73,7 +73,7 @@ function LoginForm() {
             <button
               type="button"
               onClick={() => signInWithGitHub()}
-              className="w-full flex items-center justify-center gap-3 py-3 px-4 border-2 border-[#0A0A0A] bg-[#0A0A0A] text-white font-bold text-sm uppercase tracking-widest shadow-[3px_3px_0px_rgba(0,0,0,0.3)] hover:shadow-[5px_5px_0px_rgba(0,0,0,0.3)] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all mb-3"
+              className="w-full flex items-center justify-center gap-3 py-3 px-4 border-2 border-[var(--black)] bg-[var(--black)] text-[var(--white)] font-bold text-sm uppercase tracking-widest shadow-[3px_3px_0px_rgba(var(--black-rgb),0.3)] hover:shadow-[5px_5px_0px_rgba(var(--black-rgb),0.3)] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all mb-3"
             >
               <Github size={18} />
               Continue with GitHub
@@ -83,7 +83,7 @@ function LoginForm() {
             <button
               type="button"
               onClick={() => signInWithGoogle()}
-              className="w-full flex items-center justify-center gap-3 py-3 px-4 border-2 border-[#0A0A0A] bg-white text-[#0A0A0A] font-bold text-sm uppercase tracking-widest shadow-[3px_3px_0px_rgba(0,0,0,0.3)] hover:shadow-[5px_5px_0px_rgba(0,0,0,0.3)] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all mb-6"
+              className="w-full flex items-center justify-center gap-3 py-3 px-4 border-2 border-[var(--black)] bg-[var(--white)] text-[var(--black)] font-bold text-sm uppercase tracking-widest shadow-[3px_3px_0px_rgba(var(--black-rgb),0.3)] hover:shadow-[5px_5px_0px_rgba(var(--black-rgb),0.3)] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all mb-6"
             >
               <svg
                 width="18"
@@ -113,11 +113,11 @@ function LoginForm() {
 
             {/* Divider */}
             <div className="relative flex items-center gap-3 mb-6">
-              <div className="flex-1 h-[2px] bg-[#0A0A0A]/10" />
-              <span className="text-xs font-bold uppercase tracking-widest text-gray-400">
+              <div className="flex-1 h-[2px] bg-[rgba(var(--black-rgb),0.1)]" />
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--gray-400)]">
                 or
               </span>
-              <div className="flex-1 h-[2px] bg-[#0A0A0A]/10" />
+              <div className="flex-1 h-[2px] bg-[rgba(var(--black-rgb),0.1)]" />
             </div>
 
             {/* Form */}
@@ -125,7 +125,7 @@ function LoginForm() {
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-xs font-black uppercase tracking-widest text-[#0A0A0A] mb-2"
+                  className="block text-xs font-black uppercase tracking-widest text-[var(--black)] mb-2"
                 >
                   Email Address
                 </label>
@@ -138,7 +138,7 @@ function LoginForm() {
                   onChange={(e) =>
                     setForm((f) => ({ ...f, email: e.target.value }))
                   }
-                  className="w-full border-2 border-[#0A0A0A] px-3 py-2.5 text-sm font-medium focus:outline-none focus:bg-[#FFC107]/10 transition-colors"
+                  className="w-full border-2 border-[var(--black)] px-3 py-2.5 text-sm font-medium focus:outline-none focus:bg-[#FFC107]/10 transition-colors"
                 />
               </div>
 
@@ -146,13 +146,13 @@ function LoginForm() {
                 <div className="flex items-center justify-between mb-2">
                   <label
                     htmlFor="password"
-                    className="block text-xs font-black uppercase tracking-widest text-[#0A0A0A]"
+                    className="block text-xs font-black uppercase tracking-widest text-[var(--black)]"
                   >
                     Password
                   </label>
                   <Link
                     href="/forgot-password"
-                    className="text-xs font-bold text-gray-500 hover:text-[#0A0A0A] underline"
+                    className="text-xs font-bold text-[var(--gray-500)] hover:text-[var(--black)] underline"
                   >
                     Forgot?
                   </Link>
@@ -167,12 +167,12 @@ function LoginForm() {
                     onChange={(e) =>
                       setForm((f) => ({ ...f, password: e.target.value }))
                     }
-                    className="w-full border-2 border-[#0A0A0A] px-3 py-2.5 pr-12 text-sm font-medium focus:outline-none focus:bg-[#FFC107]/10 transition-colors"
+                    className="w-full border-2 border-[var(--black)] px-3 py-2.5 pr-12 text-sm font-medium focus:outline-none focus:bg-[#FFC107]/10 transition-colors"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#0A0A0A] transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--gray-400)] hover:text-[var(--black)] transition-colors"
                     aria-label="Toggle password visibility"
                   >
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -183,17 +183,17 @@ function LoginForm() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 bg-[#FFC107] border-2 border-[#0A0A0A] text-[#0A0A0A] font-black uppercase tracking-widest text-sm shadow-[4px_4px_0px_#0A0A0A] hover:shadow-[6px_6px_0px_#0A0A0A] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-[4px_4px_0px_#0A0A0A] disabled:hover:translate-x-0 disabled:hover:translate-y-0"
+                className="w-full py-3.5 theme-fixed-yellow bg-[#FFC107] border-2 border-[var(--black)] text-[var(--black)] font-black uppercase tracking-widest text-sm shadow-[4px_4px_0px_var(--black)] hover:shadow-[6px_6px_0px_var(--black)] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-[4px_4px_0px_var(--black)] disabled:hover:translate-x-0 disabled:hover:translate-y-0"
               >
                 {loading ? "Signing in..." : "Log In →"}
               </button>
             </form>
 
-            <p className="text-center text-sm text-gray-500 mt-6">
+            <p className="text-center text-sm text-[var(--gray-500)] mt-6">
               Don&apos;t have an account?{" "}
               <Link
                 href="/register"
-                className="font-black text-[#0A0A0A] underline underline-offset-2 hover:text-[#FFC107]"
+                className="font-black text-[var(--black)] underline underline-offset-2 hover:text-[#FFC107]"
               >
                 Sign up free
               </Link>
@@ -201,7 +201,7 @@ function LoginForm() {
           </div>
 
           {/* Trust note */}
-          <p className="text-center text-xs text-gray-400 mt-4 font-medium">
+          <p className="text-center text-xs text-[var(--gray-400)] mt-4 font-medium">
             🔒 Secured by SSL. We never share your data.
           </p>
         </div>
@@ -212,7 +212,7 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-[#F5F5F0]">
+    <div className="min-h-screen bg-[var(--off-white)]">
       <Navbar />
       <Suspense fallback={<div className="min-h-[calc(100vh-72px)]" />}>
         <LoginForm />

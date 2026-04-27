@@ -17,9 +17,9 @@ export default function Card({
   padding = "md",
 }: CardProps) {
   const variants = {
-    default: "bg-white border-2 border-[#0A0A0A]",
-    yellow: "bg-[#FFC107] border-2 border-[#0A0A0A]",
-    dark: "bg-[#0A0A0A] border-2 border-[#0A0A0A] text-white",
+    default: "bg-[var(--white)] border-2 border-[var(--black)]",
+    yellow: "theme-fixed-yellow bg-[#FFC107] border-2 border-[var(--black)] text-[var(--black)]",
+    dark: "bg-[var(--black)] border-2 border-[var(--black)] text-[var(--white)]",
   };
 
   const paddings = {
@@ -32,10 +32,10 @@ export default function Card({
   return (
     <div
       className={clsx(
-        "shadow-[4px_4px_0px_#0A0A0A]",
+        "shadow-[4px_4px_0px_var(--black)]",
         variants[variant],
         paddings[padding],
-        hover && "transition-all duration-150 hover:shadow-[6px_6px_0px_#0A0A0A] hover:-translate-x-[1px] hover:-translate-y-[1px] cursor-pointer",
+        hover && "transition-all duration-150 hover:shadow-[6px_6px_0px_var(--black)] hover:-translate-x-[1px] hover:-translate-y-[1px] cursor-pointer",
         className
       )}
     >

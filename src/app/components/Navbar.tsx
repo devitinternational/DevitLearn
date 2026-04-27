@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import DevItLogo from "./DevItLogo";
+import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -20,7 +21,7 @@ interface NavbarProps {
 export default function Navbar({ variant = "light" }: NavbarProps) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const isLoggedIn = status === "authenticated";
 
   useEffect(() => {
@@ -31,18 +32,19 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
 
   const bg =
     variant === "yellow"
-      ? "bg-[#FFC107]"
+      ? "theme-fixed-yellow bg-[#FFC107]"
       : variant === "dark"
-      ? "bg-[#0A0A0A]"
-      : "bg-white";
+      ? "bg-[var(--black)]"
+      : "bg-[var(--white)]";
 
-  const textColor = variant === "dark" ? "text-white" : "text-[#0A0A0A]";
-  const borderColor = variant === "dark" ? "border-white/20" : "border-[#0A0A0A]";
+  const textColor = variant === "dark" ? "text-[var(--white)]" : "text-[var(--black)]";
+  const borderColor =
+    variant === "dark" ? "border-[rgba(var(--white-rgb),0.2)]" : "border-[var(--black)]";
 
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 ${bg} border-b-2 ${borderColor} transition-all duration-200 ${scrolled ? "shadow-[0_4px_0px_rgba(0,0,0,0.15)]" : ""}`}
+        className={`fixed top-0 left-0 right-0 z-50 ${bg} border-b-2 ${borderColor} transition-all duration-200 ${scrolled ? "shadow-[0_4px_0px_rgba(var(--black-rgb),0.15)]" : ""}`}
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <DevItLogo size="sm" variant={variant === "dark" ? "white" : "default"} />
@@ -52,7 +54,7 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-bold uppercase tracking-widest hover:text-[#FFC107] transition-colors ${variant === "dark" ? "text-white" : "text-[#0A0A0A]"}`}
+                className={`text-sm font-bold uppercase tracking-widest hover:text-[#FFC107] transition-colors ${variant === "dark" ? "text-[var(--white)]" : "text-[var(--black)]"}`}
               >
                 {link.label}
               </Link>
@@ -60,17 +62,18 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
           </div>
 
           <div className="hidden md:flex items-center gap-3">
+            <ThemeToggle inverted={variant === "dark"} />
             {isLoggedIn ? (
               <>
                 <Link
                   href="/dashboard"
-                  className="text-sm font-bold uppercase tracking-widest px-4 py-2 border-2 border-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white transition-all"
+                  className="text-sm font-bold uppercase tracking-widest px-4 py-2 border-2 border-[var(--black)] hover:bg-[var(--black)] hover:text-[var(--white)] transition-all"
                 >
                   Dashboard
                 </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: "/" })}
-                  className="text-sm font-bold uppercase tracking-widest px-5 py-2 bg-[#FFC107] border-2 border-[#0A0A0A] shadow-[3px_3px_0px_#0A0A0A] hover:shadow-[5px_5px_0px_#0A0A0A] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all text-[#0A0A0A]"
+                  className="text-sm font-bold uppercase tracking-widest px-5 py-2 theme-fixed-yellow bg-[#FFC107] border-2 border-[var(--black)] shadow-[3px_3px_0px_var(--black)] hover:shadow-[5px_5px_0px_var(--black)] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all text-[var(--black)]"
                 >
                   Sign Out
                 </button>
@@ -79,13 +82,13 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
               <>
                 <Link
                   href="/login"
-                  className={`text-sm font-bold uppercase tracking-widest px-4 py-2 border-2 border-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white transition-all ${variant === "dark" ? "border-white text-white hover:bg-white hover:text-[#0A0A0A]" : ""}`}
+                  className={`text-sm font-bold uppercase tracking-widest px-4 py-2 border-2 border-[var(--black)] hover:bg-[var(--black)] hover:text-[var(--white)] transition-all ${variant === "dark" ? "border-[var(--white)] text-[var(--white)] hover:bg-[var(--white)] hover:text-[var(--black)]" : ""}`}
                 >
                   Login
                 </Link>
                 <Link
                   href="/internships"
-                  className="text-sm font-bold uppercase tracking-widest px-5 py-2 bg-[#FFC107] border-2 border-[#0A0A0A] shadow-[3px_3px_0px_#0A0A0A] hover:shadow-[5px_5px_0px_#0A0A0A] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all text-[#0A0A0A]"
+                  className="text-sm font-bold uppercase tracking-widest px-5 py-2 theme-fixed-yellow bg-[#FFC107] border-2 border-[var(--black)] shadow-[3px_3px_0px_var(--black)] hover:shadow-[5px_5px_0px_var(--black)] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all text-[var(--black)]"
                 >
                   Get Started →
                 </Link>
@@ -95,7 +98,7 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
 
           <button
             onClick={() => setOpen(!open)}
-            className={`md:hidden p-2 border-2 border-[#0A0A0A] ${variant === "dark" ? "border-white text-white" : ""}`}
+            className={`md:hidden p-2 border-2 border-[var(--black)] ${variant === "dark" ? "border-[var(--white)] text-[var(--white)]" : ""}`}
             aria-label="Toggle menu"
           >
             {open ? <X size={20} /> : <Menu size={20} />}
@@ -104,12 +107,13 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
 
         {open && (
           <div className={`md:hidden ${bg} border-t-2 ${borderColor} px-6 py-6 flex flex-col gap-4`}>
+            <ThemeToggle inverted={variant === "dark"} />
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className={`text-base font-bold uppercase tracking-widest py-2 border-b border-[#0A0A0A]/20 ${textColor}`}
+                className={`text-base font-bold uppercase tracking-widest py-2 border-b border-[rgba(var(--black-rgb),0.2)] ${textColor}`}
               >
                 {link.label}
               </Link>
@@ -120,13 +124,13 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
                   <Link
                     href="/dashboard"
                     onClick={() => setOpen(false)}
-                    className="text-sm font-bold uppercase tracking-widest px-4 py-3 border-2 border-[#0A0A0A] text-center"
+                    className="text-sm font-bold uppercase tracking-widest px-4 py-3 border-2 border-[var(--black)] text-center"
                   >
                     Dashboard
                   </Link>
                   <button
                     onClick={() => { setOpen(false); signOut({ callbackUrl: "/" }); }}
-                    className="text-sm font-bold uppercase tracking-widest px-4 py-3 bg-[#FFC107] border-2 border-[#0A0A0A] shadow-[3px_3px_0px_#0A0A0A] text-center text-[#0A0A0A]"
+                    className="text-sm font-bold uppercase tracking-widest px-4 py-3 theme-fixed-yellow bg-[#FFC107] border-2 border-[var(--black)] shadow-[3px_3px_0px_var(--black)] text-center text-[var(--black)]"
                   >
                     Sign Out
                   </button>
@@ -136,14 +140,14 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
                   <Link
                     href="/login"
                     onClick={() => setOpen(false)}
-                    className="text-sm font-bold uppercase tracking-widest px-4 py-3 border-2 border-[#0A0A0A] text-center hover:bg-[#0A0A0A] hover:text-white transition-all"
+                    className="text-sm font-bold uppercase tracking-widest px-4 py-3 border-2 border-[var(--black)] text-center hover:bg-[var(--black)] hover:text-[var(--white)] transition-all"
                   >
                     Login
                   </Link>
                   <Link
                     href="/internships"
                     onClick={() => setOpen(false)}
-                    className="text-sm font-bold uppercase tracking-widest px-4 py-3 bg-[#FFC107] border-2 border-[#0A0A0A] shadow-[3px_3px_0px_#0A0A0A] text-center text-[#0A0A0A]"
+                    className="text-sm font-bold uppercase tracking-widest px-4 py-3 theme-fixed-yellow bg-[#FFC107] border-2 border-[var(--black)] shadow-[3px_3px_0px_var(--black)] text-center text-[var(--black)]"
                   >
                     Get Started →
                   </Link>

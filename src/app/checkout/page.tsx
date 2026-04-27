@@ -236,12 +236,12 @@ export default function CheckoutPage() {
   // Loading state
   if (authStatus === "loading" || domainLoading) {
     return (
-      <div className="min-h-screen bg-[#F5F5F0]">
+      <div className="min-h-screen bg-[var(--off-white)]">
         <Navbar />
         <div className="flex items-center justify-center h-[60vh]">
           <div className="flex flex-col items-center gap-4">
             <Loader2 className="animate-spin text-[#FFC107]" size={32} />
-            <p className="font-bold uppercase tracking-widest text-sm text-gray-500">
+            <p className="font-bold uppercase tracking-widest text-sm text-[var(--gray-500)]">
               Loading…
             </p>
           </div>
@@ -253,7 +253,7 @@ export default function CheckoutPage() {
   // Error state
   if (domainError || !domain) {
     return (
-      <div className="min-h-screen bg-[#F5F5F0]">
+      <div className="min-h-screen bg-[var(--off-white)]">
         <Navbar />
         <div className="max-w-xl mx-auto px-6 py-20 text-center">
           <AlertCircle size={40} className="text-red-500 mx-auto mb-4" />
@@ -285,28 +285,28 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0]">
+    <div className="min-h-screen bg-[var(--off-white)]">
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Back */}
         <Link
           href="/internships"
-          className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-[#0A0A0A] mb-8 transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-[var(--gray-500)] hover:text-[var(--black)] mb-8 transition-colors"
         >
           <ArrowLeft size={16} /> Back to Tracks
         </Link>
 
         {/* Header */}
         <div className="mb-8">
-          <div className="inline-block bg-[#0A0A0A] text-[#FFC107] px-3 py-1 text-[10px] font-black uppercase tracking-widest mb-3">
+          <div className="inline-block bg-[var(--black)] text-[#FFC107] px-3 py-1 text-[10px] font-black uppercase tracking-widest mb-3">
             Enrollment & Checkout
           </div>
-          <h1 className="text-4xl font-black uppercase text-[#0A0A0A]">
+          <h1 className="text-4xl font-black uppercase text-[var(--black)]">
             {domain.title}
           </h1>
           {domain.description && (
-            <p className="text-gray-500 text-sm mt-2 max-w-xl">
+            <p className="text-[var(--gray-500)] text-sm mt-2 max-w-xl">
               {domain.description}
             </p>
           )}
@@ -317,9 +317,9 @@ export default function CheckoutPage() {
           <div className="space-y-6">
 
             {/* Duration selector */}
-            <div className="border-2 border-[#0A0A0A] bg-white shadow-[4px_4px_0px_#0A0A0A] p-6">
-              <h2 className="text-sm font-black uppercase tracking-widest text-[#0A0A0A] mb-4 flex items-center gap-2">
-                <span className="w-6 h-6 bg-[#FFC107] border-2 border-[#0A0A0A] flex items-center justify-center text-xs font-black">
+            <div className="border-2 border-[var(--black)] bg-[var(--white)] shadow-[4px_4px_0px_var(--black)] p-6">
+              <h2 className="text-sm font-black uppercase tracking-widest text-[var(--black)] mb-4 flex items-center gap-2">
+                <span className="w-6 h-6 theme-fixed-yellow bg-[#FFC107] border-2 border-[var(--black)] flex items-center justify-center text-xs font-black">
                   1
                 </span>
                 Choose Duration
@@ -335,10 +335,10 @@ export default function CheckoutPage() {
                       key={months}
                       type="button"
                       onClick={() => setSelectedDuration(months)}
-                      className={`border-2 border-[#0A0A0A] p-5 text-left transition-all ${
+                      className={`border-2 border-[var(--black)] p-5 text-left transition-all ${
                         isSelected
-                          ? "bg-[#FFC107] shadow-[4px_4px_0px_#0A0A0A] -translate-x-[1px] -translate-y-[1px]"
-                          : "bg-[#F5F5F0] hover:bg-[#FFF9E6]"
+                          ? "theme-fixed-yellow bg-[#FFC107] shadow-[4px_4px_0px_var(--black)] -translate-x-[1px] -translate-y-[1px]"
+                          : "bg-[var(--off-white)] hover:bg-[#FFF9E6]"
                       }`}
                     >
                       <div className="font-black text-sm uppercase">
@@ -348,11 +348,11 @@ export default function CheckoutPage() {
                         {domain.isFree ? "Free" : `₹${p.toLocaleString("en-IN")}`}
                       </div>
                       {!domain.isFree && (
-                        <div className="text-xs text-gray-600 mt-1 font-medium">
+                        <div className="text-xs text-[var(--gray-600)] mt-1 font-medium">
                           + 18% GST = ₹{(p + Math.round(p * 0.18)).toLocaleString("en-IN")} total
                         </div>
                       )}
-                      <div className="text-xs text-gray-500 mt-2">
+                      <div className="text-xs text-[var(--gray-500)] mt-2">
                         {months === 1
                           ? "5–6 tasks · 5 quizzes · Essential Certificate"
                           : "7–8 tasks · 10 quizzes + exam · Intensive Certificate + Mentor sessions"}
@@ -364,9 +364,9 @@ export default function CheckoutPage() {
             </div>
 
             {/* What you get */}
-            <div className="border-2 border-[#0A0A0A] bg-white shadow-[4px_4px_0px_#0A0A0A] p-6">
-              <h2 className="text-sm font-black uppercase tracking-widest text-[#0A0A0A] mb-4 flex items-center gap-2">
-                <span className="w-6 h-6 bg-[#FFC107] border-2 border-[#0A0A0A] flex items-center justify-center text-xs font-black">
+            <div className="border-2 border-[var(--black)] bg-[var(--white)] shadow-[4px_4px_0px_var(--black)] p-6">
+              <h2 className="text-sm font-black uppercase tracking-widest text-[var(--black)] mb-4 flex items-center gap-2">
+                <span className="w-6 h-6 theme-fixed-yellow bg-[#FFC107] border-2 border-[var(--black)] flex items-center justify-center text-xs font-black">
                   2
                 </span>
                 What&apos;s Included
@@ -394,9 +394,9 @@ export default function CheckoutPage() {
             </div>
 
             {/* Payment action */}
-            <div className="border-2 border-[#0A0A0A] bg-white shadow-[4px_4px_0px_#0A0A0A] p-6">
-              <h2 className="text-sm font-black uppercase tracking-widest text-[#0A0A0A] mb-4 flex items-center gap-2">
-                <span className="w-6 h-6 bg-[#FFC107] border-2 border-[#0A0A0A] flex items-center justify-center text-xs font-black">
+            <div className="border-2 border-[var(--black)] bg-[var(--white)] shadow-[4px_4px_0px_var(--black)] p-6">
+              <h2 className="text-sm font-black uppercase tracking-widest text-[var(--black)] mb-4 flex items-center gap-2">
+                <span className="w-6 h-6 theme-fixed-yellow bg-[#FFC107] border-2 border-[var(--black)] flex items-center justify-center text-xs font-black">
                   3
                 </span>
                 {domain.isFree ? "Claim Free Access" : "Secure Payment via Razorpay"}
@@ -416,7 +416,7 @@ export default function CheckoutPage() {
                 type="button"
                 onClick={handlePay}
                 disabled={paying}
-                className="w-full py-4 bg-[#FFC107] border-2 border-[#0A0A0A] text-[#0A0A0A] font-black uppercase tracking-widest text-sm shadow-[5px_5px_0px_#0A0A0A] hover:shadow-[7px_7px_0px_#0A0A0A] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all flex items-center justify-center gap-3 disabled:opacity-60 disabled:cursor-not-allowed disabled:shadow-[5px_5px_0px_#0A0A0A] disabled:translate-x-0 disabled:translate-y-0"
+                className="w-full py-4 theme-fixed-yellow bg-[#FFC107] border-2 border-[var(--black)] text-[var(--black)] font-black uppercase tracking-widest text-sm shadow-[5px_5px_0px_var(--black)] hover:shadow-[7px_7px_0px_var(--black)] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all flex items-center justify-center gap-3 disabled:opacity-60 disabled:cursor-not-allowed disabled:shadow-[5px_5px_0px_var(--black)] disabled:translate-x-0 disabled:translate-y-0"
               >
                 {paying ? (
                   <>
@@ -434,8 +434,8 @@ export default function CheckoutPage() {
               </button>
 
               <div className="flex items-center justify-center gap-2 mt-4">
-                <ShieldCheck size={14} className="text-gray-400" />
-                <p className="text-xs text-gray-400 font-medium">
+                <ShieldCheck size={14} className="text-[var(--gray-400)]" />
+                <p className="text-xs text-[var(--gray-400)] font-medium">
                   Secured by Razorpay. We never store card data. 30-day refund policy.
                 </p>
               </div>
@@ -444,19 +444,19 @@ export default function CheckoutPage() {
 
           {/* ── Right: Order summary ───────────────────────────────────── */}
           <div>
-            <div className="border-2 border-[#0A0A0A] bg-white shadow-[4px_4px_0px_#0A0A0A] p-6 sticky top-24">
-              <h2 className="text-sm font-black uppercase tracking-widest text-[#0A0A0A] mb-4 border-b-2 border-[#0A0A0A] pb-3">
+            <div className="border-2 border-[var(--black)] bg-[var(--white)] shadow-[4px_4px_0px_var(--black)] p-6 sticky top-24">
+              <h2 className="text-sm font-black uppercase tracking-widest text-[var(--black)] mb-4 border-b-2 border-[var(--black)] pb-3">
                 Order Summary
               </h2>
 
               {/* Track pill */}
-              <div className="flex items-center gap-3 mb-4 p-3 bg-[#F5F5F0] border-2 border-[#0A0A0A]">
-                <div className="w-10 h-10 bg-[#0A0A0A] border-2 border-[#0A0A0A] flex items-center justify-center text-lg shrink-0">
+              <div className="flex items-center gap-3 mb-4 p-3 bg-[var(--off-white)] border-2 border-[var(--black)]">
+                <div className="w-10 h-10 bg-[var(--black)] border-2 border-[var(--black)] flex items-center justify-center text-lg shrink-0">
                   {domain.iconUrl ?? "💻"}
                 </div>
                 <div>
                   <p className="font-black text-sm uppercase">{domain.title}</p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-[var(--gray-500)]">
                     {domain._count.sections} sections · {domain._count.tasks} tasks
                   </p>
                 </div>
@@ -464,26 +464,26 @@ export default function CheckoutPage() {
 
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Duration</span>
+                  <span className="text-[var(--gray-500)]">Duration</span>
                   <span className="font-bold">
                     {selectedDuration} Month{selectedDuration > 1 ? "s" : ""}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Base price</span>
+                  <span className="text-[var(--gray-500)]">Base price</span>
                   <span className="font-bold">
                     {domain.isFree ? "Free" : `₹${price.toLocaleString("en-IN")}`}
                   </span>
                 </div>
                 {!domain.isFree && (
-                  <div className="flex justify-between text-gray-500">
+                  <div className="flex justify-between text-[var(--gray-500)]">
                     <span>GST (18%)</span>
                     <span>₹{gstAmount.toLocaleString("en-IN")}</span>
                   </div>
                 )}
               </div>
 
-              <div className="border-t-2 border-[#0A0A0A] mt-4 pt-4">
+              <div className="border-t-2 border-[var(--black)] mt-4 pt-4">
                 <div className="flex justify-between items-center">
                   <span className="font-black uppercase text-sm">Total</span>
                   <span className="text-2xl font-black">
@@ -494,16 +494,16 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              <div className="mt-4 bg-[#FFC107] border-2 border-[#0A0A0A] p-3">
-                <p className="text-xs font-bold text-[#0A0A0A]">
+              <div className="mt-4 theme-fixed-yellow bg-[#FFC107] border-2 border-[var(--black)] p-3">
+                <p className="text-xs font-bold text-[var(--black)]">
                   ✓ Certificate included · ✓ Lifetime resource access · ✓ 30-day refund policy
                 </p>
               </div>
 
               {/* Logged in as */}
               {session?.user && (
-                <div className="mt-4 pt-4 border-t border-gray-200">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">
+                <div className="mt-4 pt-4 border-t border-[var(--gray-200)]">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-[var(--gray-400)] mb-1">
                     Enrolling as
                   </p>
                   <p className="text-sm font-bold truncate">{session.user.email}</p>

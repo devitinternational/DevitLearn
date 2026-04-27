@@ -15,10 +15,10 @@ export default function Badge({
   className,
 }: BadgeProps) {
   const variants = {
-    yellow: "bg-[#FFC107] text-[#0A0A0A] border-[#0A0A0A]",
-    dark: "bg-[#0A0A0A] text-white border-[#0A0A0A]",
-    white: "bg-white text-[#0A0A0A] border-[#0A0A0A]",
-    outline: "bg-transparent text-[#0A0A0A] border-[#0A0A0A]",
+    yellow: "theme-fixed-yellow bg-[#FFC107] text-[var(--black)] border-[var(--black)]",
+    dark: "bg-[var(--black)] text-[var(--white)] border-[var(--black)]",
+    white: "bg-[var(--white)] text-[var(--black)] border-[var(--black)]",
+    outline: "bg-transparent text-[var(--black)] border-[var(--black)]",
   };
 
   const sizes = {

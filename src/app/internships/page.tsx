@@ -84,19 +84,19 @@ export default function InternshipsPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[var(--white)]">
       <Navbar />
 
       {/* Header */}
-      <section className="bg-[#FFC107] border-b-4 border-[#0A0A0A] py-16">
+      <section className="theme-fixed-yellow bg-[#FFC107] border-b-4 border-[var(--black)] py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="inline-block bg-[#0A0A0A] text-[#FFC107] px-3 py-1 text-xs font-black uppercase tracking-widest mb-4 border-2 border-[#0A0A0A]">
+          <div className="inline-block bg-[var(--black)] text-[#FFC107] px-3 py-1 text-xs font-black uppercase tracking-widest mb-4 border-2 border-[var(--black)]">
             All Tracks
           </div>
-          <h1 className="text-5xl md:text-6xl font-black uppercase text-[#0A0A0A] mb-4">
+          <h1 className="text-5xl md:text-6xl font-black uppercase text-[var(--black)] mb-4">
             Choose Your Domain
           </h1>
-          <p className="text-[#0A0A0A]/70 max-w-xl text-base font-medium">
+          <p className="text-[rgba(var(--black-rgb),0.7)] max-w-xl text-base font-medium">
             Select your track, choose 1-month or 3-month duration, and enroll
             instantly. Every track includes project tasks, quizzes, resources,
             and a certificate.
@@ -105,7 +105,7 @@ export default function InternshipsPage() {
       </section>
 
       {/* Duration note */}
-      <div className="bg-[#0A0A0A] border-b-2 border-[#FFC107] py-4">
+      <div className="bg-[var(--black)] border-b-2 border-[#FFC107] py-4">
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center gap-6">
           {[
             {
@@ -119,10 +119,10 @@ export default function InternshipsPage() {
             },
           ].map((d) => (
             <div key={d.label} className="flex items-center gap-3">
-              <span className="bg-[#FFC107] text-[#0A0A0A] text-xs font-black uppercase tracking-widest px-3 py-1 border-2 border-[#FFC107]">
+              <span className="theme-fixed-yellow bg-[#FFC107] text-[var(--black)] text-xs font-black uppercase tracking-widest px-3 py-1 border-2 border-[#FFC107]">
                 {d.label}
               </span>
-              <span className="text-white/60 text-xs font-medium">
+              <span className="text-[rgba(var(--white-rgb),0.6)] text-xs font-medium">
                 {d.detail}
               </span>
             </div>
@@ -135,51 +135,51 @@ export default function InternshipsPage() {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-24 gap-4">
             <Loader2 size={32} className="animate-spin text-[#FFC107]" />
-            <p className="font-bold uppercase tracking-widest text-sm text-gray-500">
+            <p className="font-bold uppercase tracking-widest text-sm text-[var(--gray-500)]">
               Loading tracks…
             </p>
           </div>
         ) : tracks.length === 0 ? (
           <div className="text-center py-24">
-            <p className="font-black text-xl uppercase text-gray-400">
+            <p className="font-black text-xl uppercase text-[var(--gray-400)]">
               No tracks available yet
             </p>
-            <p className="text-gray-400 text-sm mt-2">Check back soon.</p>
+            <p className="text-[var(--gray-400)] text-sm mt-2">Check back soon.</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
             {tracks.map((track) => (
               <div
                 key={track.id}
-                className="relative bg-white border-2 border-[#0A0A0A] shadow-[4px_4px_0px_#0A0A0A] flex flex-col"
+                className="relative bg-[var(--white)] border-2 border-[var(--black)] shadow-[4px_4px_0px_var(--black)] flex flex-col"
               >
                 {track.popular && (
-                  <div className="absolute -top-3 right-4 bg-[#0A0A0A] text-[#FFC107] text-[10px] font-black uppercase tracking-widest px-3 py-1 border-2 border-[#0A0A0A] z-10">
+                  <div className="absolute -top-3 right-4 bg-[var(--black)] text-[#FFC107] text-[10px] font-black uppercase tracking-widest px-3 py-1 border-2 border-[var(--black)] z-10">
                     🔥 Popular
                   </div>
                 )}
 
                 {/* Card header */}
-                <div className="p-6 border-b-2 border-[#0A0A0A]">
+                <div className="p-6 border-b-2 border-[var(--black)]">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-[#0A0A0A] flex items-center justify-center text-xl shrink-0">
+                    <div className="w-12 h-12 bg-[var(--black)] flex items-center justify-center text-xl shrink-0">
                       {track.icon}
                     </div>
                     <div>
-                      <h2 className="font-black text-lg uppercase text-[#0A0A0A] leading-tight">
+                      <h2 className="font-black text-lg uppercase text-[var(--black)] leading-tight">
                         {track.title}
                       </h2>
-                      <span className="text-xs font-bold text-gray-500">
+                      <span className="text-xs font-bold text-[var(--gray-500)]">
                         {track.level}
                       </span>
                     </div>
                   </div>
-                  <p className="text-sm text-[#0A0A0A]/70 mt-3">{track.desc}</p>
+                  <p className="text-sm text-[rgba(var(--black-rgb),0.7)] mt-3">{track.desc}</p>
                 </div>
 
                 {/* Tasks */}
                 <div className="p-6 flex-1">
-                  <p className="text-[10px] font-black uppercase text-[#0A0A0A]/50 mb-3">
+                  <p className="text-[10px] font-black uppercase text-[rgba(var(--black-rgb),0.5)] mb-3">
                     Track Modules
                   </p>
                   <ul className="space-y-1.5">
@@ -196,15 +196,15 @@ export default function InternshipsPage() {
                 </div>
 
                 {/* Pricing */}
-                <div className="p-6 border-t-2 border-[#0A0A0A]">
+                <div className="p-6 border-t-2 border-[var(--black)]">
                   <div className="grid grid-cols-2 gap-3 mb-4">
                     {track.pricing.map((p, i) => (
                       <div
                         key={p.months}
-                        className={`border-2 border-[#0A0A0A] p-3 text-center ${
+                        className={`border-2 border-[var(--black)] p-3 text-center ${
                           i === 0
-                            ? "bg-[#F5F5F0]"
-                            : "bg-[#0A0A0A]"
+                            ? "bg-[var(--off-white)]"
+                            : "bg-[var(--black)]"
                         }`}
                       >
                         <span
@@ -214,7 +214,7 @@ export default function InternshipsPage() {
                         </span>
                         <p
                           className={`font-black text-lg ${
-                            i === 1 ? "text-white" : ""
+                            i === 1 ? "text-[var(--white)]" : ""
                           }`}
                         >
                           {p.isFree
@@ -228,7 +228,7 @@ export default function InternshipsPage() {
                   {/* Enroll Now — passes domainId, default to first duration */}
                   <Link
                     href={`/checkout?domainId=${track.id}&duration=${track.durationOptions[0]}`}
-                    className="flex items-center justify-center gap-2 w-full py-3 bg-[#FFC107] border-2 border-[#0A0A0A] font-black text-sm hover:shadow-[4px_4px_0px_#0A0A0A] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all"
+                    className="flex items-center justify-center gap-2 w-full py-3 theme-fixed-yellow bg-[#FFC107] border-2 border-[var(--black)] font-black text-sm hover:shadow-[4px_4px_0px_var(--black)] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all"
                   >
                     Enroll Now <ArrowRight size={15} />
                   </Link>

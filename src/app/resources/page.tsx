@@ -3,7 +3,7 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useState } from "react";
-import { Search, Filter, ArrowRight, ExternalLink } from "lucide-react";
+import { Search, Filter, ExternalLink } from "lucide-react";
 
 const categories = ["All", "Python", "Java", "C++", "Front-End", "Back-End", "Database", "Security", "General"];
 
@@ -29,19 +29,19 @@ export default function ResourcesPage() {
   );
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-[var(--white)] flex flex-col">
       <Navbar />
 
       {/* Header */}
-      <section className="bg-[#0A0A0A] border-b-4 border-[#FFC107] py-16">
+      <section className="bg-[var(--black)] border-b-4 border-[#FFC107] py-16">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <div className="inline-block bg-[#FFC107] border-2 border-[#0A0A0A] px-3 py-1 text-xs font-black uppercase tracking-widest mb-6">
+          <div className="inline-block theme-fixed-yellow bg-[#FFC107] border-2 border-[var(--black)] px-3 py-1 text-xs font-black uppercase tracking-widest mb-6">
             Developer Library
           </div>
-          <h1 className="text-4xl md:text-6xl font-black uppercase text-white mb-6">
+          <h1 className="text-4xl md:text-6xl font-black uppercase text-[var(--white)] mb-6">
             5,000+ Developer<br />Resources
           </h1>
-          <p className="text-white/60 max-w-2xl mx-auto text-base">
+          <p className="text-[rgba(var(--white-rgb),0.6)] max-w-2xl mx-auto text-base">
             Curated guides, tutorials, cheat sheets, and code samples to help you complete
             your tasks and grow as an engineer.
           </p>
@@ -53,9 +53,9 @@ export default function ResourcesPage() {
               placeholder="Search guides, tutorials, cheat sheets..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white border-4 border-[#FFC107] text-[#0A0A0A] font-bold py-4 pl-12 pr-4 outline-none placeholder:text-gray-400 focus:shadow-[0_0_0_4px_rgba(255,193,7,0.3)] transition-shadow text-lg"
+              className="w-full bg-[var(--white)] border-4 border-[#FFC107] text-[var(--black)] font-bold py-4 pl-12 pr-4 outline-none placeholder:text-[var(--gray-400)] focus:shadow-[0_0_0_4px_rgba(255,193,7,0.3)] transition-shadow text-lg"
             />
-            <Search size={24} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#0A0A0A]" />
+            <Search size={24} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--black)]" />
           </div>
         </div>
       </section>
@@ -65,7 +65,7 @@ export default function ResourcesPage() {
         {/* Categories */}
         <div className="flex flex-col md:flex-row gap-6 mb-10">
           <div className="flex items-center gap-2 shrink-0 md:pt-2">
-            <Filter size={16} className="text-[#0A0A0A]" />
+            <Filter size={16} className="text-[var(--black)]" />
             <span className="text-xs font-black uppercase tracking-widest">Filter:</span>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -73,10 +73,10 @@ export default function ResourcesPage() {
               <button
                 key={c}
                 onClick={() => setActiveCat(c)}
-                className={`px-4 py-2 border-2 border-[#0A0A0A] text-xs font-bold uppercase tracking-widest transition-all ${
+                className={`px-4 py-2 border-2 border-[var(--black)] text-xs font-bold uppercase tracking-widest transition-all ${
                   activeCat === c
-                    ? "bg-[#FFC107] shadow-[2px_2px_0px_#0A0A0A]"
-                    : "bg-white hover:bg-[#F5F5F0]"
+                    ? "theme-fixed-yellow bg-[#FFC107] shadow-[2px_2px_0px_var(--black)]"
+                    : "bg-[var(--white)] hover:bg-[var(--off-white)]"
                 }`}
               >
                 {c}
@@ -90,33 +90,33 @@ export default function ResourcesPage() {
           {filtered.map((res) => (
             <div
               key={res.id}
-              className="bg-white border-2 border-[#0A0A0A] shadow-[4px_4px_0px_#0A0A0A] p-6 flex flex-col hover:shadow-[6px_6px_0px_#0A0A0A] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all group"
+              className="bg-[var(--white)] border-2 border-[var(--black)] shadow-[4px_4px_0px_var(--black)] p-6 flex flex-col hover:shadow-[6px_6px_0px_var(--black)] hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all group"
             >
               <div className="flex items-center justify-between mb-4">
-                <span className="text-[10px] bg-[#0A0A0A] text-white px-2 py-1 font-black uppercase tracking-widest border border-[#0A0A0A]">
+                <span className="text-[10px] bg-[var(--black)] text-[var(--white)] px-2 py-1 font-black uppercase tracking-widest border border-[var(--black)]">
                   {res.category}
                 </span>
-                <span className={`text-[10px] px-2 py-1 font-black uppercase tracking-widest border-2 border-[#0A0A0A] ${
-                  res.tag === "Essential" ? "bg-[#FFC107] text-[#0A0A0A]" : "bg-white text-gray-500"
+                <span className={`text-[10px] px-2 py-1 font-black uppercase tracking-widest border-2 border-[var(--black)] ${
+                  res.tag === "Essential" ? "theme-fixed-yellow bg-[#FFC107] text-[var(--black)]" : "bg-[var(--white)] text-[var(--gray-500)]"
                 }`}>
                   {res.tag}
                 </span>
               </div>
 
-              <h3 className="text-xl font-black uppercase text-[#0A0A0A] mb-2 leading-tight group-hover:underline underline-offset-4 decoration-2 decoration-[#FFC107]">
+              <h3 className="text-xl font-black uppercase text-[var(--black)] mb-2 leading-tight group-hover:underline underline-offset-4 decoration-2 decoration-[#FFC107]">
                 {res.title}
               </h3>
-              <p className="text-sm text-gray-600 mb-6 leading-relaxed line-clamp-2">
+              <p className="text-sm text-[var(--gray-600)] mb-6 leading-relaxed line-clamp-2">
                 {res.desc}
               </p>
 
-              <div className="mt-auto pt-4 border-t-2 border-[#0A0A0A]/10 flex items-center justify-between">
-                <span className="text-xs font-bold text-gray-400 flex items-center gap-1">
+              <div className="mt-auto pt-4 border-t-2 border-[rgba(var(--black-rgb),0.1)] flex items-center justify-between">
+                <span className="text-xs font-bold text-[var(--gray-400)] flex items-center gap-1">
                   <BookOpen size={14} /> {res.type}
                 </span>
                 <a
                   href="#"
-                  className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#0A0A0A] hover:text-[#FFC107] transition-colors"
+                  className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[var(--black)] hover:text-[#FFC107] transition-colors"
                 >
                   Open <ExternalLink size={14} />
                 </a>
@@ -126,12 +126,12 @@ export default function ResourcesPage() {
         </div>
 
         {filtered.length === 0 && (
-          <div className="text-center py-20 border-2 border-dashed border-[#0A0A0A]/20">
-            <p className="text-xl font-black uppercase text-[#0A0A0A] mb-2">No resources found</p>
-            <p className="text-gray-500">Try adjusting your search or category filter.</p>
+          <div className="text-center py-20 border-2 border-dashed border-[rgba(var(--black-rgb),0.2)]">
+            <p className="text-xl font-black uppercase text-[var(--black)] mb-2">No resources found</p>
+            <p className="text-[var(--gray-500)]">Try adjusting your search or category filter.</p>
             <button
               onClick={() => { setSearch(""); setActiveCat("All"); }}
-              className="mt-4 px-6 py-2 bg-[#FFC107] border-2 border-[#0A0A0A] text-sm font-black uppercase tracking-widest"
+              className="mt-4 px-6 py-2 theme-fixed-yellow bg-[#FFC107] border-2 border-[var(--black)] text-sm font-black uppercase tracking-widest"
             >
               Clear Filters
             </button>

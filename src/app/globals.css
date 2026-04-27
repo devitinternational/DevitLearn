@@ -10,7 +10,9 @@
   --yellow-light: #FFD54F;
   --yellow-dark: #F9A825;
   --black: #0A0A0A;
+  --black-rgb: 10, 10, 10;
   --white: #FFFFFF;
+  --white-rgb: 255, 255, 255;
   --off-white: #F5F5F0;
   --gray-100: #F0F0EC;
   --gray-200: #E0E0DB;
@@ -33,6 +35,22 @@
   /* Typography */
   --font-heading: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
   --font-body: var(--font-inter), 'Inter', sans-serif;
+}
+
+:root[data-theme="dark"] {
+  --black: #FFFFFF;
+  --black-rgb: 255, 255, 255;
+  --white: #0A0A0A;
+  --white-rgb: 10, 10, 10;
+  --off-white: #171717;
+  --gray-100: #1F1F1F;
+  --gray-200: #2B2B2B;
+  --gray-300: #4A4A4A;
+  --gray-400: #888888;
+  --gray-500: #B0B0B0;
+  --gray-600: #D0D0D0;
+  --gray-700: #EFEFEF;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -62,6 +80,7 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--white);
 }
 
 body {
@@ -71,6 +90,11 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -123,20 +147,29 @@ h1, h2, h3, h4, h5, h6 {
     45deg,
     transparent,
     transparent 10px,
-    rgba(0,0,0,0.04) 10px,
-    rgba(0,0,0,0.04) 20px
+    rgba(var(--black-rgb), 0.04) 10px,
+    rgba(var(--black-rgb), 0.04) 20px
   );
 }
 
 /* Dot grid pattern */
 .dot-grid-bg {
-  background-image: radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(var(--black-rgb), 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
 /* Yellow gradient section */
 .section-yellow {
   background-color: var(--yellow);
+  color: var(--black);
+}
+
+.theme-fixed-yellow {
+  --black: #0A0A0A;
+  --black-rgb: 10, 10, 10;
+  --white: #FFFFFF;
+  --white-rgb: 255, 255, 255;
+  color: #0A0A0A;
 }
 
 /* Dark section */
@@ -255,7 +288,7 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-appearance: none;
   cursor: pointer;
   position: relative;
-  background: white;
+  background: var(--white);
 }
 
 .checkbox-brutal:checked {

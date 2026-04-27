@@ -13,25 +13,33 @@ const sizes = {
   lg: { mark: 48, text: "text-3xl" },
 };
 
+const logoColors = {
+  yellow: "#FFC107",
+  black: "#0A0A0A",
+  white: "#FFFFFF",
+};
+
 export default function DevItLogo({
   size = "md",
   variant = "default",
   showWordmark = true,
 }: DevItLogoProps) {
   const { mark, text } = sizes[size];
-  const markColor = variant === "white" ? "#FFFFFF" : "#0A0A0A";
-  const bgColor = variant === "white" ? "#0A0A0A" : "#FFC107";
-  const textColor = variant === "white" ? "#FFFFFF" : variant === "black" ? "#0A0A0A" : "#0A0A0A";
+  const markColor = variant === "white" ? logoColors.white : logoColors.black;
+  const bgColor = variant === "white" ? logoColors.black : logoColors.yellow;
+  const textColor = variant === "white" ? logoColors.white : logoColors.black;
+  const borderColor = variant === "white" ? logoColors.white : logoColors.black;
 
   return (
     <Link href="/" className="flex items-center gap-2 no-underline group">
       {/* D Mark */}
       <div
-        className="flex items-center justify-center flex-shrink-0 border-2 border-[#0A0A0A]"
+        className="flex items-center justify-center flex-shrink-0 border-2"
         style={{
           width: mark,
           height: mark,
           background: bgColor,
+          borderColor,
         }}
       >
         <svg
@@ -55,7 +63,7 @@ export default function DevItLogo({
           className={`font-heading font-black ${text} tracking-tight leading-none`}
           style={{ color: textColor, fontFamily: "var(--font-heading)" }}
         >
-          Dev<span style={{ color: variant === "default" ? "#0A0A0A" : textColor }}>It</span>
+          Dev<span style={{ color: textColor }}>It</span>
         </span>
       )}
     </Link>

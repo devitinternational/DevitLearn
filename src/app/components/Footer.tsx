@@ -32,14 +32,14 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0A0A0A] text-white border-t-4 border-[#FFC107]">
+    <footer className="bg-[var(--black)] text-[var(--white)] border-t-4 border-[#FFC107] transition-colors duration-200">
       {/* Main footer grid */}
       <div className="max-w-7xl mx-auto px-6 pt-16 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-12">
           {/* Brand */}
           <div className="md:col-span-2">
             <DevItLogo size="md" variant="white" showWordmark={true} />
-            <p className="mt-4 text-sm text-gray-400 leading-relaxed max-w-xs">
+            <p className="mt-4 text-sm text-[var(--gray-400)] leading-relaxed max-w-xs">
               Build real production-grade projects. Earn verifiable certificates.
               Launch your developer career with DevIt.
             </p>
@@ -49,7 +49,7 @@ export default function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="w-9 h-9 border-2 border-white/30 flex items-center justify-center hover:border-[#FFC107] hover:text-[#FFC107] transition-colors"
+                  className="w-9 h-9 border-2 border-[rgba(var(--white-rgb),0.3)] flex items-center justify-center hover:border-[#FFC107] hover:text-[#FFC107] transition-colors"
                 >
                   <Icon size={16} />
                 </a>
@@ -68,7 +68,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-gray-400 hover:text-white transition-colors hover:underline underline-offset-2"
+                      className="text-sm text-[var(--gray-400)] hover:text-[var(--white)] transition-colors hover:underline underline-offset-2"
                     >
                       {link.label}
                     </Link>
@@ -80,13 +80,13 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-gray-500">
+        <div className="mt-12 pt-6 border-t border-[rgba(var(--white-rgb),0.1)] flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-[var(--gray-500)]">
             © 2025 DevIt L.H.M.M. All rights reserved.
           </p>
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#FFC107] animate-pulse" />
-            <span className="text-xs text-gray-500 font-mono">
+            <span className="w-2 h-2 rounded-full theme-fixed-yellow bg-[#FFC107] animate-pulse" />
+            <span className="text-xs text-[var(--gray-500)] font-mono">
               Platform Status: Operational
             </span>
           </div>

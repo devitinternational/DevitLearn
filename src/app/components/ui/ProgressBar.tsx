@@ -15,8 +15,8 @@ export default function ProgressBar({
 }: ProgressBarProps) {
   const heights = { sm: "h-2", md: "h-4", lg: "h-6" };
   const fillColors = {
-    yellow: "bg-[#FFC107]",
-    dark: "bg-[#0A0A0A]",
+    yellow: "theme-fixed-yellow bg-[#FFC107]",
+    dark: "bg-[var(--black)]",
   };
 
   return (
@@ -24,7 +24,7 @@ export default function ProgressBar({
       {(label || showPercent) && (
         <div className="flex items-center justify-between mb-2">
           {label && (
-            <span className="text-xs font-bold uppercase tracking-widest text-[#0A0A0A]">
+            <span className="text-xs font-bold uppercase tracking-widest text-[var(--black)]">
               {label}
             </span>
           )}
@@ -36,10 +36,10 @@ export default function ProgressBar({
         </div>
       )}
       <div
-        className={`w-full ${heights[size]} bg-[#F0F0EC] border-2 border-[#0A0A0A] overflow-hidden`}
+        className={`w-full ${heights[size]} bg-[var(--gray-100)] border-2 border-[var(--black)] overflow-hidden`}
       >
         <div
-          className={`${heights[size]} ${fillColors[variant]} border-r-2 border-[#0A0A0A] transition-all duration-700 ease-out relative overflow-hidden`}
+          className={`${heights[size]} ${fillColors[variant]} border-r-2 border-[var(--black)] transition-all duration-700 ease-out relative overflow-hidden`}
           style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
         >
           {/* Animated stripe */}

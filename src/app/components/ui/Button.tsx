@@ -19,17 +19,17 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const base =
-    "inline-flex items-center justify-center gap-2 font-bold uppercase tracking-wider border-2 border-[#0A0A0A] cursor-pointer transition-all duration-150 select-none relative active:translate-x-[2px] active:translate-y-[2px]";
+    "inline-flex items-center justify-center gap-2 font-bold uppercase tracking-wider border-2 border-[var(--black)] cursor-pointer transition-all duration-150 select-none relative active:translate-x-[2px] active:translate-y-[2px]";
 
   const variants = {
     primary:
-      "bg-[#FFC107] text-[#0A0A0A] shadow-[4px_4px_0px_#0A0A0A] hover:shadow-[6px_6px_0px_#0A0A0A] hover:-translate-x-[1px] hover:-translate-y-[1px] active:shadow-[2px_2px_0px_#0A0A0A]",
+      "theme-fixed-yellow bg-[#FFC107] text-[var(--black)] shadow-[4px_4px_0px_var(--black)] hover:shadow-[6px_6px_0px_var(--black)] hover:-translate-x-[1px] hover:-translate-y-[1px] active:shadow-[2px_2px_0px_var(--black)]",
     secondary:
-      "bg-white text-[#0A0A0A] shadow-[4px_4px_0px_#0A0A0A] hover:shadow-[6px_6px_0px_#0A0A0A] hover:-translate-x-[1px] hover:-translate-y-[1px] active:shadow-[2px_2px_0px_#0A0A0A]",
+      "bg-[var(--white)] text-[var(--black)] shadow-[4px_4px_0px_var(--black)] hover:shadow-[6px_6px_0px_var(--black)] hover:-translate-x-[1px] hover:-translate-y-[1px] active:shadow-[2px_2px_0px_var(--black)]",
     ghost:
-      "bg-transparent text-[#0A0A0A] shadow-none hover:bg-[#FFC107] hover:shadow-[4px_4px_0px_#0A0A0A]",
+      "bg-transparent text-[var(--black)] shadow-none hover:bg-[#FFC107] hover:shadow-[4px_4px_0px_var(--black)]",
     dark:
-      "bg-[#0A0A0A] text-white shadow-[4px_4px_0px_rgba(0,0,0,0.3)] hover:shadow-[6px_6px_0px_rgba(0,0,0,0.4)] hover:-translate-x-[1px] hover:-translate-y-[1px] active:shadow-[2px_2px_0px_rgba(0,0,0,0.3)] border-[#0A0A0A]",
+      "bg-[var(--black)] text-[var(--white)] shadow-[4px_4px_0px_rgba(var(--black-rgb),0.3)] hover:shadow-[6px_6px_0px_rgba(var(--black-rgb),0.4)] hover:-translate-x-[1px] hover:-translate-y-[1px] active:shadow-[2px_2px_0px_rgba(var(--black-rgb),0.3)] border-[var(--black)]",
   };
 
   const sizes = {

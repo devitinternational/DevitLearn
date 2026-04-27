@@ -40,8 +40,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
-      <body className="bg-white text-[#0A0A0A] antialiased">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} ${spaceGrotesk.variable}`}
+    >
+      <body className="bg-[var(--white)] text-[var(--black)] antialiased transition-colors duration-200">
         <SessionWrapper>{children}</SessionWrapper>
       </body>
     </html>
