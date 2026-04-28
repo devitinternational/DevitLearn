@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "preinstall": "npx only-allow npm"
+    "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
     "@devitinternational/db": "^0.1.0",
